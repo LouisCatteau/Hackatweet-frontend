@@ -1,0 +1,27 @@
+.main {
+    padding: 20px;
+    border: 1px solid white;
+}
+
+
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.userLogo {
+    width: 50px;
+    width: 50px;
+}
+.message{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.Username{
+    opacity: 50%;
+    margin-left: 10px;
+    
+  }
+.Firstname{
+    margin-left: 10px;
+}

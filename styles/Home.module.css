@@ -1,22 +1,117 @@
 .main {
+  background-color: #151D27;
+  height: 100vh;
+  display: flex;
+  color: white;
+}
+
+.leftBanner {
+  border: #1F2731 1px solid;
+  width: 20vw;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+.sendTweet {
+  height: 20vh;
+  border: #1F2731 1px solid;
+
+}
+
+.content {
+  width: 50vw;
+  border: #1F2731 1px solid;
+}
+
+.tweetContainer {
+  border: #1F2731 1px solid;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  height: 80vh;
+  overflow-x: hidden;
+}
+
+.trends {
+  width: 30vw;
+  border: #1F2731 1px solid;
+}
+
+.logo {
+  rotate: 180deg;
+  height: 100px;
+  width: 100px;
+}
+
+.addMessage {
+  background-color: #151D27;
+  margin: 20px;
+  color: white;
+  border: 0;
+  border-bottom: 2px solid #1F2731;
+  font-size: large;
+}
+
+.buttonSend {
+  background-color: #3690ED;
+  width: 100px;
+  height: 20px;
+  border: 0;
+  border-radius: 1em;
+  color: white;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+.buttonSend:hover {
+  cursor: pointer;
+}
+
+.button {
+  display: flex;
+  right: 0px;
+  justify-content: flex-end;
+  margin-right: 20px;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+}
+
+.h2 {
+  margin-left: 20px;
+}
+
+.user {
+  display: flex;
+  justify-content: flex-start;
   align-items: center;
-  min-height: 100vh;
-  padding: 4rem 0;
+  margin-bottom: 10px;
+}
+.Username{
+  opacity: 50%;
 }
 
-.title {
-  line-height: 1.15;
-  font-size: 4rem;
+.userLogo {
+  height: 50px;
+  width: 50px;
+  margin-right: 5px;
+}
+.logout{
+  border-radius: 1em;
+  background-color: #151D27;
+  border: 2px solid white;
+  color:white;
+  width: 100px;
+  height: 20px;
+}
+.logout:hover {
+  cursor: pointer;
 }
 
-.title a {
-  color: #0070f3;
-  text-decoration: none;
-}
-
-.title a:hover, .title a:focus, .title a:active {
-  text-decoration: underline;
+.profile{
+  margin-bottom: 30px;
+  margin-left: 30px;
 }
