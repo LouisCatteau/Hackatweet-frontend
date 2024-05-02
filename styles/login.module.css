@@ -1,7 +1,6 @@
 .container {
     display: flex;
     justify-content: center;
-    flex-direction: row;
     align-items: center;
     height: 100vh;
     width: 100vw;
@@ -10,12 +9,10 @@
   
   .leftcontainer {
     height: 100vh;
-    width: 50%;
-    max-width: 100%;
-    position: "absolute";
-    overflow: "hidden";
-    object-fit: "contain"
-
+    width: 50vh;
+    background-image: url('../public/background2.jpg');
+    background-size: cover;
+    background-position: center;
   }
   
   .rightcontainer {

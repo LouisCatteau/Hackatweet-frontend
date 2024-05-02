@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import styles from '../styles/Login.module.css';
 import Image from 'next/image'
+
 
 function Login() {
 
@@ -18,11 +20,6 @@ function Login() {
         <div className={styles.container}>
 
             <div className={styles.leftcontainer}>
-            <Image
-      src="/background2.jpg"   
-      layout='fill'
-      alt="background"
-    />
             </div>
 
             <div className={styles.rightcontainer}>            
