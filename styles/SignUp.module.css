@@ -1,0 +1,48 @@
+.signUpContainer {
+    position: absolute;
+    height: 500px;
+    width: 450px;
+    align-items: center;
+     display: flex;
+    background-color: hsl(212, 40%, 16%);
+    padding: 30px;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 30px;
+}
+
+.title {
+    color: white;
+
+}
+
+.input {
+    background-color: hsl(212, 40%, 16%);
+    width: 200px;
+    height: 40px;
+    border: 1px solid rgb(172, 159, 159);
+    padding: 10px;
+}
+
+.button {
+    width: 200px;
+    height: 30px;
+    border-radius: 30px;
+    background-color: white;
+    font-weight:bold;
+}
+
+.close {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    
+}
+
+.buttonClose {
+    color: white;
+    background-color: hsl(212, 40%, 16%);
+    border: 0;
+    border-radius: 50%;
+    font-size: 15px;
+}

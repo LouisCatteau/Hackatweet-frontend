@@ -1,4 +1,5 @@
-
+import { useState } from "react";
+import styles from '../styles/SignUp.module.css'
 
 
 function SignUp() {
@@ -6,7 +7,7 @@ function SignUp() {
     const [signUpFirstname, setSignUpFirstname] = useState('');
     const [signUpUsername, setSignUpUsername] = useState('');
     const [signUpPassword, setSignUpPassword] = useState('');
-    
+
 
     const handleSignUp = () => {
         fetch('http://localhost:3000/users/signup', {
@@ -16,19 +17,23 @@ function SignUp() {
         }).then(response => response.json())
             .then(data => {
                 if (data.result) {
-                    dispatch(login({ username: signUpUsername, token: data.token }));               
+                    dispatch(login({ username: signUpUsername, token: data.token }));
                 }
             });
     };
 
     return (
-        <div>
+        <div className={styles.signUpContainer}>
+            <div className={styles.close}>
+                <button className={styles.buttonClose} >X</button>
+            </div>
             <img src="logo" alt="Logo" />
-            <h2>Create your Hackatweet account</h2>
-            <input type="text" placeholder="Firstname" value={firstname} onChange={(e) => setFirstname(e.target.value)}/>
-            <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}/>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-            <button onClick={() => handleSignUp()}>Sign Up</button>
+            <h2 className={styles.title}>Create your Hackatweet account</h2>
+            <input className={styles.input} type="text" placeholder="Firstname" value={signUpFirstname} onChange={(e) => setSignUpFirstname(e.target.value)} />
+            <input className={styles.input} type="text" placeholder="Username" value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />
+            <input className={styles.input} type="password" placeholder="Password" value={signUpPassword} onChange={(e) => setSignUpPassword(e.target.value)} />
+            <button className={styles.button} onClick={() => handleSignUp()}>Sign Up</button>
+
         </div>
     );
 };

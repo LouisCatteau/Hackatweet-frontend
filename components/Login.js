@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import styles from '../styles/Login.module.css';
-import Image from 'next/image'
+import SignUp from './SignUp';
+import SignIn from "./SignIn";
+
 
 
 function Login() {
@@ -10,24 +12,31 @@ function Login() {
 
     //fait apparaitre les modals du Sign Up / Sign In
  const popSignUp = () => {
-    if(setDisplaySignUp(true)){}
+    setDisplaySignUp(true)
  }
  const popSignIn = () => {
-    if(setDisplaySignIn(true)){}
+    setDisplaySignIn(true)
  }
 
     return (
         <div className={styles.container}>
+            { displaySignUp && <SignUp/> }
+            { displaySignIn && <SignIn/> }
+
 
             <div className={styles.leftcontainer}>
             </div>
 
-            <div className={styles.rightcontainer}>            
+            <div className={styles.rightcontainer}>  
+            <div className={styles.content} >         
                 <img src="logo.png" alt="Logo" className={styles.logo} />
-                <div > See what's happening </div>
-                <button id="signup" onClick={() => popSignUp()}>Sign Up</button>
-                <div> Already have an account ?</div>  
-                <button id="signup" onClick={() => popSignIn()}>Sign In</button>    
+                <p className={styles.title}> See what's happening </p>
+                <p className={styles.join}> Join Hackatweet today. </p>
+                <button className={styles.signup} onClick={() => popSignUp()}>Sign Up</button>
+                <p className={styles.question}> Already have an account ?</p>  
+                <button className={styles.signin} onClick={() => popSignIn()}>Sign In</button>   
+                </div> 
+
             </div>
 
         </div >
