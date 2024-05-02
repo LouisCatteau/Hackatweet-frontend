@@ -31,6 +31,9 @@
   overflow: scroll;
   height: 80vh;
   overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: #1F2731 #151D27;
+  
 }
 
 .trends {
@@ -62,6 +65,7 @@
   color: white;
   font-weight: bold;
   margin-left: 5px;
+  
 }
 
 .buttonSend:hover {
@@ -114,4 +118,11 @@
 .profile{
   margin-bottom: 30px;
   margin-left: 30px;
+}
+.trendsContainer{
+  border-radius: 2em;
+  margin: 0 10px;
+  background-color: #1B232C;
+  padding: 20px;
+
 }
