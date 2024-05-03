@@ -3,11 +3,26 @@ import Trend from './Trend'
 import LastTweets from './LastTweets'
 import Tweet from './Tweet'
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 
 function Home() {
   const [message, setmessage] = useState('');
+  const [tweets, settweets] = useState([]);
+  let allTweets=[]
+
+  useEffect(() => {
+    fetch('http://localhost:3000/tweets/allTweets')
+    .then(response=>response.json())
+    .then(data=>settweets(data.data))
+  }, []);
+
+
+  allTweets=tweets.map((e,i)=>{
+    return(<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} Username={e.user.Username} Firstname={e.user.Firstname}/>)
+  })
+
+
   return (
     <div className={styles.main}>
 
@@ -37,19 +52,7 @@ function Home() {
           </div>
         </div>
         <div className={styles.tweetContainer}>
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-          <LastTweets />
-
+          {allTweets}
         </div>
       </div>
 
