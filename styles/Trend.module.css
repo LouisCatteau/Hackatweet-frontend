@@ -3,8 +3,15 @@
     margin-bottom: 5px;
 }
 .main{
-    margin-bottom: 20px;
+    cursor: pointer;
+    width: 100%;
+    padding: 20px
 }
+
+.main:hover {
+    background-color: #232D3A;
+}
+
 .p{
     opacity: 50%;
 }
