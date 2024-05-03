@@ -17,9 +17,10 @@ function Home() {
   const user = useSelector((state) => state.user.value);
   const router = useRouter()
  
-  useEffect(() => {
+  /*
+   useEffect(() => {
   router.push('/login')
-  }, []);
+  }, []);  */
 
   const clickOnTrend = (trendName) => {
     setIsHome(false);
