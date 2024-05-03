@@ -29,7 +29,7 @@ function SignIn(props) {
             .then(data => {
                 console.log(data)
                 if (data.result) {
-                    dispatch(login({ username: signInUsername, token: data.token }));
+                    dispatch(login({ username: signInUsername, token: data.token , firstname : data.firstname }));
                     setSignInUsername('');
                     setSignInPassword('');
                     router.push('/')
