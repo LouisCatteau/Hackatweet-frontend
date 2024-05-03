@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { addTrendToStore, removeTrendFromStore } from '../reducers/trends';
+import { addTrendToStore, removeTrendFromStore, removeAllTrends } from '../reducers/trends';
 import { addHashtag, removeHashtag } from '../reducers/hashtag';
 import { logout } from '../reducers/user';
 
@@ -39,8 +39,7 @@ function Home() {
 
 
   const clickOnTrend = (trendName) => {
-    const hashtagURL = `/hashtag/${trendName}`;
-    const finalURL = hashtagURL.replace("#", "/");
+    dispatch(removeAllTrends());
     router.push('/hashtag');
     dispatch(addHashtag(trendName))
   };
@@ -80,8 +79,11 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    for (let tweet of tweets) {
-      searchHashtag(tweet.message);
+    if(user.token) {
+      for (let tweet of tweets) {
+        searchHashtag(tweet.message);
+      }
+      console.log('serch')
     }
   }, [tweets])
 

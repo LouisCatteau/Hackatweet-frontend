@@ -6,24 +6,31 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { addTrendToStore, removeTrendFromStore } from '../reducers/trends';
-import { addHashtag, removeHashtag } from '../reducers/hashtag';
+import { addTrendToStore, removeAllTrends } from '../reducers/trends';
 
 function Trends() {
   const [hashtag, setHashtag] = useState('');
   const [filteredTweets, setFilteredTweets] = useState([]);
   const trends = useSelector((state) => state.trends.value);
   const [tweets, settweets] = useState([]);
-  let allTweets = []
   const user = useSelector((state) => state.user.value);
   const hashtagReducer = useSelector((state) => state.hashtag.value);
   const router = useRouter();
  
   const dispatch = useDispatch();
 
-  const handleClickLogo = () => {
-    router.push('/')
-  };
+  useEffect(() => {
+    fetch('http://localhost:3000/tweets/allTweets')
+      .then(response => response.json())
+      .then(data => {settweets(data.tweets)});
+      setHashtag(hashtagReducer)
+  }, []);
+
+  useEffect(() => {
+    for (let tweet of tweets) {
+      searchHashtag(tweet.message);
+    }
+  }, [tweets])
   
   useEffect(() => {
     if (hashtag) {
@@ -34,7 +41,12 @@ function Trends() {
     }
   }, [hashtag, tweets]);
 
-  function searchHashtag(string) {
+  const handleClickLogo = () => {
+    dispatch(removeAllTrends());
+    router.push('/')
+  };
+
+  const searchHashtag = (string) => {
     const regex = /#\w+/g; 
     const matches = string.match(regex);
 
@@ -49,26 +61,13 @@ function Trends() {
     }
   } 
 
+  const clickOnTrend = (trendName) => {
+    setHashtag(trendName)
+  };
+
   const trendsToDisplay = trends.map((trend, i) => {
-    return <Trend key={i} name={trend.name} number={trend.number} />;
+    return <Trend key={i} name={trend.name} number={trend.number} clickOnTrend={clickOnTrend}/>;
   });
-
-  useEffect(() => {
-    fetch('http://localhost:3000/tweets/allTweets')
-      .then(response => response.json())
-      .then(data => {settweets(data.tweets)});
-      setHashtag(hashtagReducer)
-  }, []);
-
-  useEffect(() => {
-    for (let tweet of tweets) {
-      searchHashtag(tweet.message);
-    }
-  }, [tweets])
-
-  allTweets = tweets.map((e, i) => {
-    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} />)
-  })
 
   return (
     <div className={styles.main}>
