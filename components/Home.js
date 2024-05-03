@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { addTrendToStore, removeTrendFromStore } from '../reducers/trends';
 import { addHashtag, removeHashtag } from '../reducers/hashtag';
+import { logout } from '../reducers/user';
 
 function Home() {
   const [message, setmessage] = useState('');
@@ -22,6 +23,7 @@ function Home() {
    useEffect(() => {
   router.push('/login')
   }, []);  */
+
 
   const clickOnTrend = (trendName) => {
     const hashtagURL = `/hashtag/${trendName}`;
@@ -49,6 +51,10 @@ function Home() {
     return <Trend key={i} name={trend.name} number={trend.number} clickOnTrend={clickOnTrend} />;
   });
 
+  const handleLogOut = () => {
+		dispatch(logout());
+    router.push('/login') }
+
   useEffect(() => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
@@ -73,7 +79,7 @@ function Home() {
   };
 
   allTweets = tweets.map((e, i) => {
-    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} />)
+    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} isLiked />)
   })
 
   return (
@@ -89,7 +95,7 @@ function Home() {
               <p className={styles.Username}>@{user.username}</p>
             </div>
           </div>
-          <button className={styles.logout}>Logout</button>
+          <button className={styles.logout} onClick={() => handleLogOut()}>Logout</button>
         </div>
       </div>
 
