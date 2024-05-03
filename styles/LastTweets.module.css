@@ -2,7 +2,13 @@
     padding: 20px;
     border: 1px solid #1F2731;
 }
-
+.trash{
+    margin-left: 10px;
+}
+.trash:hover{
+    cursor: pointer;
+    opacity: 50%;
+}
 
 .user {
     display: flex;
