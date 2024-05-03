@@ -1,8 +1,12 @@
 import { useState } from "react";
 import styles from '../styles/SignUp.module.css'
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/user";
 
 
 function SignUp() {
+    
+    const dispatch = useDispatch();
 
     const [signUpFirstname, setSignUpFirstname] = useState('');
     const [signUpUsername, setSignUpUsername] = useState('');
@@ -27,7 +31,7 @@ function SignUp() {
             <div className={styles.close}>
                 <button className={styles.buttonClose} >X</button>
             </div>
-            <img src="logo" alt="Logo" />
+            <img src="/logo-twitter.png" className={styles.logotwitter} alt="Logo" />
             <h2 className={styles.title}>Create your Hackatweet account</h2>
             <input className={styles.input} type="text" placeholder="Firstname" value={signUpFirstname} onChange={(e) => setSignUpFirstname(e.target.value)} />
             <input className={styles.input} type="text" placeholder="Username" value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />

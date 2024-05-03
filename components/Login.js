@@ -29,7 +29,7 @@ function Login() {
 
             <div className={styles.rightcontainer}>  
             <div className={styles.content} >         
-                <img src="logo.png" alt="Logo" className={styles.logo} />
+                <img src="/logo-twitter.png" className={styles.logotwitter} alt="Logo" />
                 <p className={styles.title}> See what's happening </p>
                 <p className={styles.join}> Join Hackatweet today. </p>
                 <button className={styles.signup} onClick={() => popSignUp()}>Sign Up</button>

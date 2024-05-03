@@ -3,17 +3,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 
-function LastTweets() {
+function LastTweets(props) {
+
+const time='time'
 
   return (
     <div className={styles.main}>
       <div className={styles.user}>
-        <img className={styles.userLogo} src='/instagram.png' alt="Logo" />
-        <p className={styles.Firstname}>Instagram  </p>
-        <p className={styles.Username}>@InstaLaResta - 5 hours</p>
+        <img className={styles.userLogo} src={`/${props.firstname}.png`} alt="Logo" />
+        <p className={styles.Firstname}>{props.firstname}  </p>
+        <p className={styles.Username}>@{props.username} - {time}</p>
       </div>
-      <div className={styles.message}>Hello this is my first tweet !</div>
-      <FontAwesomeIcon icon={faHeart} className="like" />   0</div>
+      <div className={styles.message}>{props.message}</div>
+      <FontAwesomeIcon icon={faHeart} className={styles.like} />{props.nbLike}</div>
   );
 }
 
