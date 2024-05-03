@@ -4,34 +4,42 @@ import LastTweets from './LastTweets'
 import Tweet from './Tweet'
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router'
 
 
 function Home() {
+  const router = useRouter()
   const [message, setmessage] = useState('');
   const [tweets, settweets] = useState([]);
   let allTweets = []
+	const user = useSelector((state) => state.user.value);
+  
+  router.push('/login')
 
   useEffect(() => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
-      .then(data => settweets(data.data))
+      .then(data => settweets(data.tweets))
   }, []);
 
   const sendTweet = () => {
     const date = Date.now()
-
-    const tweet = { date: date, message: message, token: user.token }
+    const tweet = { date: date, message: message, token: user.token  }
     fetch('http://localhost:3000/tweets/newTweet', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ tweet }),
+      body: JSON.stringify({ ...tweet }),
     })
       .then(setmessage(''))
   };
+
+  console.log(tweets)
+
   allTweets = tweets.map((e, i) => {
-    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} />)
+    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} />)
   })
-}
+
 
 return (
   <div className={styles.main}>
@@ -74,5 +82,5 @@ return (
     </div>
   </div>
 );
-
+}
 export default Home;
