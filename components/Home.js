@@ -7,8 +7,6 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router'
 
-
-
 function Home() {
   const [message, setmessage] = useState('');
   const [isHome, setIsHome] = useState(true);
@@ -17,9 +15,11 @@ function Home() {
   const [tweets, settweets] = useState([]);
   let allTweets = []
   const user = useSelector((state) => state.user.value);
-  /*const router = useRouter()
-  router.push('/login')*/
-
+  const router = useRouter()
+ 
+  useEffect(() => {
+  router.push('/login')
+  }, []);
 
   const clickOnTrend = (trendName) => {
     setIsHome(false);
@@ -51,12 +51,9 @@ function Home() {
       .then(setmessage(''))
   };
 
-  console.log(tweets)
-
   allTweets = tweets.map((e, i) => {
     return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} />)
   })
-
 
   return (
     <div className={styles.main}>
@@ -65,10 +62,10 @@ function Home() {
         <img className={styles.logo} src='/logo-twitter.png' alt="Logo" onClick={()=>handleLogoClick()} />
         <div className={styles.profile}>
           <div className={styles.user}>
-            <img className={styles.userLogo} src='/youtube.png' alt="Logo" />
+            <img className={styles.userLogo} src={`/${user.firstname}.png`} alt="Logo" />
             <div>
-              <p className={styles.Firstname}>Youtube</p>
-              <p className={styles.Username}>@SimplyTheBest</p>
+              <p className={styles.Firstname}>{user.firstname}</p>
+              <p className={styles.Username}>@{user.username}</p>
             </div>
           </div>
           <button className={styles.logout}>Logout</button>
