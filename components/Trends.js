@@ -9,26 +9,30 @@ import { useRouter } from 'next/router';
 import { addTrendToStore, removeTrendFromStore } from '../reducers/trends';
 import { addHashtag, removeHashtag } from '../reducers/hashtag';
 
-function Home() {
-  const [message, setmessage] = useState('');
+function Trends() {
+  const [hashtag, setHashtag] = useState('');
+  const [filteredTweets, setFilteredTweets] = useState([]);
   const trends = useSelector((state) => state.trends.value);
   const [tweets, settweets] = useState([]);
   let allTweets = []
   const user = useSelector((state) => state.user.value);
-  const router = useRouter()
+  const hashtagReducer = useSelector((state) => state.hashtag.value);
+  const router = useRouter();
  
   const dispatch = useDispatch();
-  /*
-   useEffect(() => {
-  router.push('/login')
-  }, []);  */
 
-  const clickOnTrend = (trendName) => {
-    const hashtagURL = `/hashtag/${trendName}`;
-    const finalURL = hashtagURL.replace("#", "/");
-    router.push('/hashtag');
-    dispatch(addHashtag(trendName))
+  const handleClickLogo = () => {
+    router.push('/')
   };
+  
+  useEffect(() => {
+    if (hashtag) {
+      const filtered = tweets.filter(tweet => tweet.message.includes(hashtag));
+      setFilteredTweets(filtered);
+    } else {
+      setFilteredTweets([]);
+    }
+  }, [hashtag, tweets]);
 
   function searchHashtag(string) {
     const regex = /#\w+/g; 
@@ -46,13 +50,14 @@ function Home() {
   } 
 
   const trendsToDisplay = trends.map((trend, i) => {
-    return <Trend key={i} name={trend.name} number={trend.number} clickOnTrend={clickOnTrend} />;
+    return <Trend key={i} name={trend.name} number={trend.number} />;
   });
 
   useEffect(() => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
-      .then(data => {settweets(data.tweets)})
+      .then(data => {settweets(data.tweets)});
+      setHashtag(hashtagReducer)
   }, []);
 
   useEffect(() => {
@@ -60,17 +65,6 @@ function Home() {
       searchHashtag(tweet.message);
     }
   }, [tweets])
-
-  const sendTweet = () => {
-    const date = Date.now()
-    const tweet = { date: date, message: message, token: user.token }
-    fetch('http://localhost:3000/tweets/newTweet', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...tweet }),
-    })
-      .then(setmessage(''))
-  };
 
   allTweets = tweets.map((e, i) => {
     return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} />)
@@ -80,7 +74,7 @@ function Home() {
     <div className={styles.main}>
 
       <div className={styles.leftBanner}>
-        <img className={styles.logo} src='/logo-twitter.png' alt="Logo"/>
+        <img className={styles.logo} src='/logo-twitter.png' alt="Logo" onClick={handleClickLogo}/>
         <div className={styles.profile}>
           <div className={styles.user}>
             <img className={styles.userLogo} src={`/${user.firstname}.png`} alt="Logo" />
@@ -95,18 +89,27 @@ function Home() {
 
       <div className={styles.content}>
           <div className={styles.sendTweet}>
-            <h2 className={styles.h2}>Home</h2>
+            <h2 className={styles.h2}>Hashtag</h2>
             <div className={styles.message}>
-              <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message}></input>
-              <div className={styles.button}>
-                <span>{message.length} / 280 </span>
-                <button className={styles.buttonSend} onClick={() => sendTweet()}>Tweet</button>
-              </div>
+              <input className={styles.addMessage} onChange={(e) => setHashtag(e.target.value)} value={hashtag}></input>
             </div>
           </div>
 
-        <div className={styles.tweetContainer}>
-          {allTweets}
+          <div className={styles.tweetContainer}>
+          {filteredTweets.length > 0 ? (
+            filteredTweets.map((tweet, index) => (
+              <LastTweets
+                key={index}
+                message={tweet.message}
+                date={tweet.date}
+                nbLike={tweet.nbLike}
+                username={tweet.username}
+                firstname={tweet.firstname}
+              />
+            ))
+          ) : (
+            <p>No tweets found with {hashtag}</p>
+          )}
         </div>
       </div>
 
@@ -119,4 +122,5 @@ function Home() {
     </div>
   );
 }
-export default Home;
+
+export default Trends;

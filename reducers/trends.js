@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: [{name: '#Tweet', number:3},{name:'#test', number:1},{name:'#test', number:1}],
+  value: [],
 };
 
 export const trendsSlice = createSlice({
@@ -9,13 +9,12 @@ export const trendsSlice = createSlice({
   initialState,
   reducers: {
     addTrendToStore: (state, action) => {
-      const { name } = action.payload;
-      const existingTrend = state.value.find(trend => trend.name === name);
+      const existingTrend = state.value.find(trend => trend.name === action.payload);
 
       if (existingTrend) {
         existingTrend.number += 1;
       } else {
-        state.value.push({ name, number: 1 });
+        state.value.push({ name: action.payload, number: 1 });
       }
     },
     removeTrendFromStore: (state, action) => {

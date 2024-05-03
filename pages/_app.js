@@ -4,10 +4,11 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import user from '../reducers/user';
 import trends from '../reducers/trends';
+import hashtag from '../reducers/hashtag';
 
 
 const store = configureStore({
-  reducer: { user, trends },
+  reducer: { user, trends, hashtag },
  });
 
 function App({ Component, pageProps }) {
