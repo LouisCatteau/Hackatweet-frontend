@@ -17,22 +17,24 @@ function Home() {
   let allTweets = []
   const user = useSelector((state) => state.user.value);
   const router = useRouter()
- 
+
   const dispatch = useDispatch();
 
-  const refreshTweets=()=>{
+  const refreshTweets = () => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
       .then(data => {
-        const tweet= data.tweets.sort(function(a,b){
+        /*const tweet= data.tweets.sort(function(a,b){
           return new Date(b.date) - new Date(a.date);
-        });
-        settweets(tweet)
+        });*/
+        settweets(data.tweets.sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        }))
       })
   }
-  
-   useEffect(() => {
-    if (!user.username){
+
+  useEffect(() => {
+    if (!user.username) {
       router.push('/login')
     }
   }, []);
@@ -45,36 +47,39 @@ function Home() {
   };
 
   function searchHashtag(string) {
-    const regex = /#\w+/g; 
+    const regex = /#\w+/g;
     const matches = string.match(regex);
 
     if (matches) {
       for (let match of matches) {
         if (match) {
           dispatch(addTrendToStore(match))
-      } else {
-          return null; 
-      }
+        } else {
+          return null;
+        }
       }
     }
-  } 
+  }
 
   const trendsToDisplay = trends.map((trend, i) => {
     return <Trend key={i} name={trend.name} number={trend.number} clickOnTrend={clickOnTrend} />;
   });
 
   const handleLogOut = () => {
-		dispatch(logout());
-    router.push('/login') }
+    dispatch(logout());
+    router.push('/login')
+  }
 
   useEffect(() => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
       .then(data => {
-        const tweet= data.tweets.sort(function(a,b){
+        /*const tweet= data.tweets.sort(function(a,b){
           return new Date(b.date) - new Date(a.date);
-        });
-        settweets(tweet)
+        });*/
+        settweets(data.tweets.sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        }))
       })
   }, []);
 
@@ -85,7 +90,7 @@ function Home() {
       }
       console.log('serch')
     }
-  }, [tweets])
+  }, [])
 
   const sendTweet = () => {
     const date = Date.now()
@@ -95,20 +100,21 @@ function Home() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...tweet }),
     })
-      .then(()=>{setmessage(''); refreshTweets()})
+      .then(() => {
+        setmessage('');
+        refreshTweets()
+      })
   };
-  console.log(tweets)
-  
 
   allTweets = tweets.map((e, i) => {
-    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} refreshTweets={refreshTweets}/>)
+    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} refreshTweets={refreshTweets} />)
   })
 
   return (
     <div className={styles.main}>
 
       <div className={styles.leftBanner}>
-        <img className={styles.logo} src='/logo-twitter.png' alt="Logo"/>
+        <img className={styles.logo} src='/logo-twitter.png' alt="Logo" />
         <div className={styles.profile}>
           <div className={styles.user}>
             <img className={styles.userLogo} src={`/${user.firstname}.png`} alt="Logo" />
@@ -122,16 +128,16 @@ function Home() {
       </div>
 
       <div className={styles.content}>
-          <div className={styles.sendTweet}>
-            <h2 className={styles.h2}>Home</h2>
-            <div className={styles.message}>
-              <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message} placeholder="What's up ?" maxLength={280}></input>
-              <div className={styles.button}>
-                <span>{message.length} / 280 </span>
-                <button className={styles.buttonSend} onClick={() => sendTweet()}>Tweet</button>
-              </div>
+        <div className={styles.sendTweet}>
+          <h2 className={styles.h2}>Home</h2>
+          <div className={styles.message}>
+            <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message} placeholder="What's up ?" maxLength={280}></input>
+            <div className={styles.button}>
+              <span>{message.length} / 280 </span>
+              <button className={styles.buttonSend} onClick={() => sendTweet()}>Tweet</button>
             </div>
           </div>
+        </div>
 
         <div className={styles.tweetContainer}>
           {allTweets}
