@@ -12,16 +12,16 @@ function Login() {
 
     //fait apparaitre les modals du Sign Up / Sign In
  const popSignUp = () => {
-    setDisplaySignUp(true)
+    setDisplaySignUp(!displaySignUp)
  }
  const popSignIn = () => {
-    setDisplaySignIn(true)
+    setDisplaySignIn(!displaySignIn)
  }
 
     return (
         <div className={styles.container}>
-            { displaySignUp && <SignUp/> }
-            { displaySignIn && <SignIn/> }
+            { displaySignUp && <SignUp popSignUp={popSignUp} /> }
+            { displaySignIn && <SignIn popSignIn={popSignIn}/>  }
 
 
             <div className={styles.leftcontainer}>
