@@ -33,6 +33,7 @@ function LastTweets(props) {
     }
   }, []);
 
+  console.log(props.tweetId)
   const deleteTweet =()=>{
     fetch('http://localhost:3000/tweets/removeTweet', {
       method: 'POST',
@@ -42,6 +43,20 @@ function LastTweets(props) {
     .then (response=>response.json())
     .then(data=>console.log(data.id))
     props.refreshTweets()
+  }
+
+  const likeTweet =() => {
+    fetch('http://localhost:3000/tweets/addLike', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify( { tweetId : props.tweetId , token : user.token}),
+    })
+    .then (response=>response.json())
+    .then( () => { props.refreshTweets()
+
+    })
+
+
   }
 
   if (user.username === props.username) {
@@ -56,7 +71,7 @@ function LastTweets(props) {
         <p className={styles.Username}>@{props.username} - {timeSpent}</p>
       </div>
       <div className={styles.message}>{props.message}</div>
-      <FontAwesomeIcon icon={faHeart} className={styles.like} />{props.nbLike}
+      <FontAwesomeIcon icon={faHeart} className={styles.like} onClick={() => likeTweet()} />{props.nbLike.length}
       {trash}
     </div>
   );
