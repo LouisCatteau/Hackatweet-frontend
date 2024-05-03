@@ -34,7 +34,7 @@ function SignIn() {
             <div className={styles.close} >
                 <button className={styles.buttonClose}  >X</button>
             </div>
-            <img src="logo" alt="Logo" />
+            <img src="/logo-twitter.png" className={styles.logotwitter} alt="Logo" />
             <h2 className={styles.title}>Connect to Hackatweet </h2>
             <input className={styles.input} type="text" placeholder="Username" value={signInUsername} onChange={(e) => setSignInUsername(e.target.value)} />
             <input className={styles.input} type="password" placeholder="Password" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} />
