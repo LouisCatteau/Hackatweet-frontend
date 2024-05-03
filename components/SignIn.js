@@ -1,13 +1,22 @@
 import { useState } from "react";
 import styles from '../styles/SignIn.module.css'
+import { useRouter } from 'next/router'
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/user";
 
 
 
-function SignIn() {
+
+
+function SignIn(props) {
 
     const [signInUsername, setSignInUsername] = useState('');
     const [signInPassword, setSignInPassword] = useState('');
 
+    const dispatch = useDispatch();
+
+
+    const router = useRouter()
 
 
     const handleConnection = () => {
@@ -22,7 +31,8 @@ function SignIn() {
                     dispatch(login({ username: signInUsername, token: data.token }));
                     setSignInUsername('');
                     setSignInPassword('');
-                    setIsModalVisible(false)
+                    router.push('/')
+
                 }
             });
     };
@@ -32,7 +42,7 @@ function SignIn() {
     return (
         <div className={styles.signInContainer}>
             <div className={styles.close} >
-                <button className={styles.buttonClose}  >X</button>
+                <button className={styles.buttonClose} onClick={() => props.popSignIn()} >X</button>
             </div>
             <img src="/logo-twitter.png" className={styles.logotwitter} alt="Logo" />
             <h2 className={styles.title}>Connect to Hackatweet </h2>

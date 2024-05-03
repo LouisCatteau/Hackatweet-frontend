@@ -31,7 +31,7 @@ function Home() {
   allTweets = tweets.map((e, i) => {
     return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} />)
   })
-}
+
 
 return (
   <div className={styles.main}>
@@ -74,5 +74,6 @@ return (
     </div>
   </div>
 );
+}
 
 export default Home;
