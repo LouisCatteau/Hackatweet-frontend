@@ -19,10 +19,23 @@ function Home() {
   const router = useRouter()
  
   const dispatch = useDispatch();
-  /*
+
+  const refreshTweets=()=>{
+    fetch('http://localhost:3000/tweets/allTweets')
+      .then(response => response.json())
+      .then(data => {
+        const tweet= data.tweets.sort(function(a,b){
+          return new Date(b.date) - new Date(a.date);
+        });
+        settweets(tweet)
+      })
+  }
+  
    useEffect(() => {
-  router.push('/login')
-  }, []);  */
+    if (!user.username){
+      router.push('/login')
+    }
+  }, []);
 
 
   const clickOnTrend = (trendName) => {
@@ -58,7 +71,12 @@ function Home() {
   useEffect(() => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
-      .then(data => {settweets(data.tweets)})
+      .then(data => {
+        const tweet= data.tweets.sort(function(a,b){
+          return new Date(b.date) - new Date(a.date);
+        });
+        settweets(tweet)
+      })
   }, []);
 
   useEffect(() => {
@@ -75,11 +93,13 @@ function Home() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...tweet }),
     })
-      .then(setmessage(''))
+      .then(()=>{setmessage(''); refreshTweets()})
   };
+  console.log(tweets)
+  
 
   allTweets = tweets.map((e, i) => {
-    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.username} firstname={e.firstname} isLiked />)
+    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} refreshTweets={refreshTweets}/>)
   })
 
   return (
@@ -103,7 +123,7 @@ function Home() {
           <div className={styles.sendTweet}>
             <h2 className={styles.h2}>Home</h2>
             <div className={styles.message}>
-              <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message}></input>
+              <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message} placeholder="What's up ?" maxLength={280}></input>
               <div className={styles.button}>
                 <span>{message.length} / 280 </span>
                 <button className={styles.buttonSend} onClick={() => sendTweet()}>Tweet</button>
