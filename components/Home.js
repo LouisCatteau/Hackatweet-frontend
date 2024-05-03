@@ -24,9 +24,6 @@ function Home() {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
       .then(data => {
-        /*const tweet= data.tweets.sort(function(a,b){
-          return new Date(b.date) - new Date(a.date);
-        });*/
         settweets(data.tweets.sort(function (a, b) {
           return new Date(b.date) - new Date(a.date);
         }))
@@ -74,9 +71,6 @@ function Home() {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
       .then(data => {
-        /*const tweet= data.tweets.sort(function(a,b){
-          return new Date(b.date) - new Date(a.date);
-        });*/
         settweets(data.tweets.sort(function (a, b) {
           return new Date(b.date) - new Date(a.date);
         }))
