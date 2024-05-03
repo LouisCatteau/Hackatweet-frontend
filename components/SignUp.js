@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
 
 
-function SignUp() {
+function SignUp(props) {
     
     const dispatch = useDispatch();
 
@@ -22,6 +22,10 @@ function SignUp() {
             .then(data => {
                 if (data.result) {
                     dispatch(login({ username: signUpUsername, token: data.token }));
+                    setSignUpUsername('');
+                    setSignUpPassword('');
+                    setSignUpFirstname('');
+                  router.push('/')
                 }
             });
     };
@@ -29,7 +33,7 @@ function SignUp() {
     return (
         <div className={styles.signUpContainer}>
             <div className={styles.close}>
-                <button className={styles.buttonClose} >X</button>
+                <button className={styles.buttonClose} onClick={() => props.popSignUp()}>X</button>
             </div>
             <img src="/logo-twitter.png" className={styles.logotwitter} alt="Logo" />
             <h2 className={styles.title}>Create your Hackatweet account</h2>
