@@ -2,6 +2,8 @@ import { useState } from "react";
 import styles from '../styles/SignUp.module.css'
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
+import { useRouter } from 'next/router'
+
 
 
 function SignUp(props) {
@@ -11,6 +13,8 @@ function SignUp(props) {
     const [signUpFirstname, setSignUpFirstname] = useState('');
     const [signUpUsername, setSignUpUsername] = useState('');
     const [signUpPassword, setSignUpPassword] = useState('');
+    const router = useRouter()
+
 
 
     const handleSignUp = () => {
@@ -20,6 +24,7 @@ function SignUp(props) {
             body: JSON.stringify({ firstname: signUpFirstname, username: signUpUsername, password: signUpPassword }),
         }).then(response => response.json())
             .then(data => {
+                console.log(data)
                 if (data.result) {
                     dispatch(login({ username: signUpUsername, token: data.token }));
                     setSignUpUsername('');

@@ -27,6 +27,7 @@ function SignIn(props) {
             body: JSON.stringify({ username: signInUsername, password: signInPassword }),
         }).then(response => response.json())
             .then(data => {
+                console.log(data)
                 if (data.result) {
                     dispatch(login({ username: signInUsername, token: data.token }));
                     setSignInUsername('');
