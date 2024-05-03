@@ -4,15 +4,33 @@ import LastTweets from './LastTweets'
 import Tweet from './Tweet'
 import Image from 'next/image';
 import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 function Home() {
   const [message, setmessage] = useState('');
+  const [isHome, setIsHome] = useState(true);
+  const [hashtag, setHashtag] = useState('');
+  const trends = useSelector((state) => state.trends.value);
+
+  const clickOnTrend = (trendName) => {
+    setIsHome(false);
+    setHashtag(trendName);
+  };
+  
+  const handleLogoClick = () => {
+    setIsHome(true);
+  }
+
+  const trendsToDisplay = trends.map((trend, i) => {
+    return <Trend key={i} name={trend.name}  number={trend.number} clickOnTrend={clickOnTrend}/>;
+  });
+
   return (
     <div className={styles.main}>
 
       <div className={styles.leftBanner}>
-        <img className={styles.logo} src='/logo-twitter.png' alt="Logo"/>
+        <img className={styles.logo} src='/logo-twitter.png' alt="Logo" onClick={handleLogoClick}/>
         <div className={styles.profile}>
           <div className={styles.user}>
             <img className={styles.userLogo} src='/youtube.png' alt="Logo"/>
@@ -26,7 +44,8 @@ function Home() {
       </div>
 
       <div className={styles.content}>
-        <div className={styles.sendTweet}>
+        {isHome && (
+          <div className={styles.sendTweet}>
           <h2 className={styles.h2}>Home</h2>
           <div className={styles.message}>
             <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message}></input>
@@ -36,6 +55,16 @@ function Home() {
             </div>
           </div>
         </div>
+        )}
+        {!isHome && (
+          <div className={styles.hashtag}>
+          <h2 className={styles.h2}>Hashtag</h2>
+          <div className={styles.message}>
+            <input className={styles.searchHastag} onChange={(e) => setHashtag(e.target.value)} value={hashtag}></input>
+          </div>
+        </div>
+        )}
+        
         <div className={styles.tweetContainer}>
           <LastTweets />
           <LastTweets />
@@ -56,7 +85,7 @@ function Home() {
       <div className={styles.trends}>
         <h2 className={styles.h2} >Trends</h2>
         <div className={styles.trendsContainer}>
-          <Trend />
+          {trendsToDisplay}
         </div>
       </div>
     </div>
