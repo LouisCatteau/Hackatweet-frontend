@@ -1,8 +1,12 @@
 import { useState } from "react";
 import styles from '../styles/SignUp.module.css'
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/user";
 
 
 function SignUp() {
+    
+    const dispatch = useDispatch();
 
     const [signUpFirstname, setSignUpFirstname] = useState('');
     const [signUpUsername, setSignUpUsername] = useState('');
