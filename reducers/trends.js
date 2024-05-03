@@ -30,8 +30,11 @@ export const trendsSlice = createSlice({
           }
         }
     },
+    removeAllTrends: (state) => {
+        state.value = []
+    },
   },
 });
 
-export const { addTrendToStore, removeTrendFromStore } = trendsSlice.actions;
+export const { addTrendToStore, removeTrendFromStore, removeAllTrends } = trendsSlice.actions;
 export default trendsSlice.reducer;

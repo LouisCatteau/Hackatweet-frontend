@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-import { addTrendToStore, removeTrendFromStore } from '../reducers/trends';
+import { addTrendToStore, removeTrendFromStore, removeAllTrends } from '../reducers/trends';
 import { addHashtag, removeHashtag } from '../reducers/hashtag';
 import { logout } from '../reducers/user';
 
@@ -17,73 +17,74 @@ function Home() {
   let allTweets = []
   const user = useSelector((state) => state.user.value);
   const router = useRouter()
- 
+
   const dispatch = useDispatch();
 
-  const refreshTweets=()=>{
+  const refreshTweets = () => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
       .then(data => {
-        const tweet= data.tweets.sort(function(a,b){
+        settweets(data.tweets.sort(function (a, b) {
           return new Date(b.date) - new Date(a.date);
-        });
-        settweets(tweet)
+        }))
       })
   }
-  
-   useEffect(() => {
-    if (!user.username){
+
+  useEffect(() => {
+    if (!user.username) {
       router.push('/login')
     }
   }, []);
 
 
   const clickOnTrend = (trendName) => {
-    const hashtagURL = `/hashtag/${trendName}`;
-    const finalURL = hashtagURL.replace("#", "/");
+    dispatch(removeAllTrends());
     router.push('/hashtag');
     dispatch(addHashtag(trendName))
   };
 
   function searchHashtag(string) {
-    const regex = /#\w+/g; 
+    const regex = /#\w+/g;
     const matches = string.match(regex);
 
     if (matches) {
       for (let match of matches) {
         if (match) {
           dispatch(addTrendToStore(match))
-      } else {
-          return null; 
-      }
+        } else {
+          return null;
+        }
       }
     }
-  } 
+  }
 
   const trendsToDisplay = trends.map((trend, i) => {
     return <Trend key={i} name={trend.name} number={trend.number} clickOnTrend={clickOnTrend} />;
   });
 
   const handleLogOut = () => {
-		dispatch(logout());
-    router.push('/login') }
+    dispatch(logout());
+    router.push('/login')
+  }
 
   useEffect(() => {
     fetch('http://localhost:3000/tweets/allTweets')
       .then(response => response.json())
       .then(data => {
-        const tweet= data.tweets.sort(function(a,b){
+        settweets(data.tweets.sort(function (a, b) {
           return new Date(b.date) - new Date(a.date);
-        });
-        settweets(tweet)
+        }))
       })
   }, []);
 
   useEffect(() => {
-    for (let tweet of tweets) {
-      searchHashtag(tweet.message);
+    if(user.token) {
+      for (let tweet of tweets) {
+        searchHashtag(tweet.message);
+      }
+      console.log('serch')
     }
-  }, [tweets])
+  }, [])
 
   const sendTweet = () => {
     const date = Date.now()
@@ -93,20 +94,25 @@ function Home() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...tweet }),
     })
-      .then(()=>{setmessage(''); refreshTweets()})
+      .then(() => {
+        setmessage('');
+        refreshTweets()
+      })
   };
-  console.log(tweets)
-  
 
   allTweets = tweets.map((e, i) => {
+<<<<<<< HEAD
     return (<LastTweets key={i} tweetId={e._id} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} refreshTweets={refreshTweets}/>)
+=======
+    return (<LastTweets key={i} message={e.message} date={e.date} nbLike={e.nbLike} username={e.user.username} firstname={e.user.firstname} refreshTweets={refreshTweets} />)
+>>>>>>> fa3e8e6eb7098da121db167b88b3d86b13dc946d
   })
 
   return (
     <div className={styles.main}>
 
       <div className={styles.leftBanner}>
-        <img className={styles.logo} src='/logo-twitter.png' alt="Logo"/>
+        <img className={styles.logo} src='/logo-twitter.png' alt="Logo" />
         <div className={styles.profile}>
           <div className={styles.user}>
             <img className={styles.userLogo} src={`/${user.firstname}.png`} alt="Logo" />
@@ -120,16 +126,16 @@ function Home() {
       </div>
 
       <div className={styles.content}>
-          <div className={styles.sendTweet}>
-            <h2 className={styles.h2}>Home</h2>
-            <div className={styles.message}>
-              <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message} placeholder="What's up ?" maxLength={280}></input>
-              <div className={styles.button}>
-                <span>{message.length} / 280 </span>
-                <button className={styles.buttonSend} onClick={() => sendTweet()}>Tweet</button>
-              </div>
+        <div className={styles.sendTweet}>
+          <h2 className={styles.h2}>Home</h2>
+          <div className={styles.message}>
+            <input className={styles.addMessage} onChange={(e) => setmessage(e.target.value)} value={message} placeholder="What's up ?" maxLength={280}></input>
+            <div className={styles.button}>
+              <span>{message.length} / 280 </span>
+              <button className={styles.buttonSend} onClick={() => sendTweet()}>Tweet</button>
             </div>
           </div>
+        </div>
 
         <div className={styles.tweetContainer}>
           {allTweets}
